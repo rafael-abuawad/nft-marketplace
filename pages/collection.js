@@ -8,7 +8,7 @@ import NFT from '../artifacts/contracts/NFT.sol/NFT.json';
 import Marketplace from '../artifacts/contracts/Marketplace.sol/Marketplace.json';
 import { nftAddress, marketplaceAddress } from '../config';
 
-export default function Home() {
+export default function Collection() {
   const [nfts, setNfts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,15 +19,18 @@ export default function Home() {
 
   async function loadNfts() {
     setLoading(true);
-    const provider = new ethers.providers.JsonRpcProvider();
-    const nft = new ethers.Contract(nftAddress, NFT.abi, provider);
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const nft = new ethers.Contract(nftAddress, NFT.abi, signer);
     const marketplace = new ethers.Contract(
       marketplaceAddress,
       Marketplace.abi,
-      provider
+      signer
     );
 
-    let items = await marketplace.listAllItems();
+    let items = await marketplace.listMyItems();
     items = await Promise.all(
       items.map(async (i) => {
         const tokenURI = await nft.tokenURI(i.tokenId);
@@ -49,29 +52,10 @@ export default function Home() {
     setNfts(items);
   }
 
-  async function buyNft(nft) {
-    const web3modal = new Web3Modal();
-    const connection = await web3modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-    const marketplace = new ethers.Contract(
-      marketplaceAddress,
-      Marketplace.abi,
-      signer
-    );
-
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
-    const transaction = await marketplace.buyItem(nft.itemId, nftAddress, {
-      value: price,
-    });
-    await transaction.wait();
-    loadNfts();
-  }
-
   return (
     <div>
       <Head>
-        <title>Metaverse Marketplace</title>
+        <title>Collection - Metaverse Marketplace</title>
         <meta
           name="description"
           content="Building a digital art marketplace with Next.js, Tailwind, Solidity, Hardhat, Ethers.js, and IPFS. "
@@ -80,11 +64,11 @@ export default function Home() {
       </Head>
 
       <div>
-        <h1>Marketplace items</h1>
+        <h1>Your Collection</h1>
         <div>
           {loading && <p>Items loading</p>}
           {loaded && nfts.length === 0 && (
-            <p>There are no Items in the marketplace</p>
+            <p>There are no Items in your collection</p>
           )}
           {nfts.map((nft, i) => (
             <div key={nft.itemId}>
@@ -97,10 +81,6 @@ export default function Home() {
               <div>
                 <p>{nft.name}</p>
                 <p>{nft.description}</p>
-              </div>
-              <div>
-                <p>{nft.price} ETH</p>
-                <button onClick={() => buyNft(nft)}>BUY</button>
               </div>
             </div>
           ))}

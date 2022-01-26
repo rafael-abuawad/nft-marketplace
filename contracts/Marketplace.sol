@@ -110,10 +110,7 @@ contract Marketplace is ReentrancyGuard, Ownable {
                 true,
             'The Marketplace is not allowed to sell the NFT'
         );
-        require(
-            msg.value == item.price,
-            'You must pay the market item price'
-        );
+        require(msg.value == item.price, 'You must pay the market item price');
 
         ERC721(nftContract).safeTransferFrom(
             marketplace,
