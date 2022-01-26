@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const { ethers } = require('hardhat');
 
 describe('Marketplace', function () {
-  it('Should mint, sell and buy an item', async function () {
+  it('Should mint, list and sell an item on the marketplace', async function () {
     const Marketplace = await hre.ethers.getContractFactory('Marketplace');
     const marketplace = await Marketplace.deploy();
     await marketplace.deployed();
@@ -24,7 +24,9 @@ describe('Marketplace', function () {
     let price = await marketplace.getMinimunListingPrice();
     price = price.toString();
 
-    tx = await marketplace.createMarketItem(price, 0, nft.address, {
+    const tokenId = 0;
+
+    tx = await marketplace.createMarketItem(price, tokenId, nft.address, {
       value: entranceFee,
     });
     await tx.wait();
@@ -33,10 +35,10 @@ describe('Marketplace', function () {
     const [owner, buyer] = await ethers.getSigners();
     tx = await marketplace
       .connect(buyer)
-      .buyItem(0, nft.address, { value: price });
+      .buyItem(tokenId, nft.address, { value: price });
     await tx.wait();
 
     // Check if the owner is the buyer addess
-    expect(await nft.ownerOf(0)).to.equal(buyer.address);
+    expect(await nft.ownerOf(tokenId)).to.equal(buyer.address);
   });
 });

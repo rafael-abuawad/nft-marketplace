@@ -7,6 +7,7 @@ import Head from 'next/head';
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json';
 import Marketplace from '../artifacts/contracts/Marketplace.sol/Marketplace.json';
 import { nftAddress, marketplaceAddress } from '../config';
+import NFTCard from '../components/NFTCard';
 
 export default function Home() {
   const [nfts, setNfts] = useState([]);
@@ -80,30 +81,32 @@ export default function Home() {
       </Head>
 
       <div>
-        <h1>Marketplace items</h1>
+        <h1 className="pb-3 text-gray-600 text-xl sm:text-2xl">
+          Marketplace items
+        </h1>
         <div>
-          {loading && <p>Items loading</p>}
-          {loaded && nfts.length === 0 && (
-            <p>There are no Items in the marketplace</p>
+          {loading && (
+            <p className="pb-3 text-gray-600 text-xl sm:text-2xl">
+              Items loading
+            </p>
           )}
-          {nfts.map((nft, i) => (
-            <div key={nft.itemId}>
-              <img
-                src={nft.image}
-                alt={nft.description}
-                width={200}
-                height={200}
+          {loaded && nfts.length === 0 && (
+            <p className="pb-3 text-gray-600 text-xl sm:text-2xl">
+              There are no Items in the marketplace
+            </p>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gird-cols-6 gap-6">
+            {nfts.map((nft) => (
+              <NFTCard
+                key={nft.itemId}
+                nft={nft}
+                showInfo
+                showBuyBtn
+                buyNft={() => buyNft(nft)}
               />
-              <div>
-                <p>{nft.name}</p>
-                <p>{nft.description}</p>
-              </div>
-              <div>
-                <p>{nft.price} ETH</p>
-                <button onClick={() => buyNft(nft)}>BUY</button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

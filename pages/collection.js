@@ -7,6 +7,7 @@ import Head from 'next/head';
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json';
 import Marketplace from '../artifacts/contracts/Marketplace.sol/Marketplace.json';
 import { nftAddress, marketplaceAddress } from '../config';
+import NFTCard from '../components/NFTCard';
 
 export default function Collection() {
   const [nfts, setNfts] = useState([]);
@@ -64,26 +65,26 @@ export default function Collection() {
       </Head>
 
       <div>
-        <h1>Your Collection</h1>
+        <h1 className="pb-3 text-gray-600 text-xl sm:text-2xl">
+          Your collections
+        </h1>
         <div>
-          {loading && <p>Items loading</p>}
-          {loaded && nfts.length === 0 && (
-            <p>There are no Items in your collection</p>
+          {loading && (
+            <p className="pb-3 text-gray-600 text-xl sm:text-2xl">
+              Items loading
+            </p>
           )}
-          {nfts.map((nft, i) => (
-            <div key={nft.itemId}>
-              <img
-                src={nft.image}
-                alt={nft.description}
-                width={200}
-                height={200}
-              />
-              <div>
-                <p>{nft.name}</p>
-                <p>{nft.description}</p>
-              </div>
-            </div>
-          ))}
+          {loaded && nfts.length === 0 && (
+            <p className="pb-3 text-gray-600 text-xl sm:text-2xl">
+              There are no Items in the your collection
+            </p>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gird-cols-6 gap-6">
+            {nfts.map((nft) => (
+              <NFTCard key={nft.itemId} nft={nft} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

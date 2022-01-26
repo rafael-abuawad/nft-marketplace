@@ -105,7 +105,7 @@ export default function Create() {
   return (
     <div>
       <Head>
-        <title>Create - Metaverse Marketplace</title>
+        <title>CollectCreate Assetion - Metaverse Marketplace</title>
         <meta
           name="description"
           content="Building a digital art marketplace with Next.js, Tailwind, Solidity, Hardhat, Ethers.js, and IPFS. "
@@ -113,31 +113,71 @@ export default function Create() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>Create NFT</h1>
       <div>
-        <input
-          type="text"
-          placeholder="Asset Name"
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-          required
-        />
-        <textarea
-          type="text"
-          placeholder="Asset Description"
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Asset Price"
-          onChange={(e) => setForm({ ...form, price: e.target.value })}
-          required
-        />
-        <input type="file" onChange={onChange} required />
-        {fileUrl && <img src={fileUrl} alt="" />}
-        <button onClick={createMarketItem} disabled={!valid}>
-          Create
-        </button>
+        <h1 className="pb-3 text-gray-600 text-xl sm:text-2xl">Create Asset</h1>
+        <div className="flex flex-col w-full md:max-w-[500px] space-y-6">
+          <input
+            type="text"
+            className="border border-gray-300 p-3 rounded-lg"
+            placeholder="Asset Name"
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+          />
+          <textarea
+            type="text"
+            className="border border-gray-300 p-3 rounded-lg"
+            placeholder="Asset Description"
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            required
+          />
+          <input
+            type="number"
+            className="border border-gray-300 p-3 rounded-lg "
+            placeholder="Asset Price (ETH)"
+            onChange={(e) => setForm({ ...form, price: e.target.value })}
+            required
+          />
+          <input
+            type="file"
+            className="
+              border border-gray-300 p-3 rounded-lg w-full text-gray-400
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-lg file:border file:border-black
+              file:text-sm file:font-semibold
+              file:bg-white file:text-black
+              hover:file:bg-black hover:file:text-white
+              hover:file:cursor-pointer
+             "
+            onChange={onChange}
+            required
+          />
+
+          {fileUrl && (
+            <div className="relative aspect-w-1 aspect-h-1 rounded-xl">
+              <img
+                className="absolute w-full h-full rounded-xl shadow-lg"
+                src={fileUrl}
+              />
+            </div>
+          )}
+          {!fileUrl && (
+            <div className="border border-gray-300 p-3 py-6 text-center rounded-lg w-full">
+              <p className="text-gray-400">No file selected yet...</p>
+            </div>
+          )}
+          <button
+            className="
+              py-3 rounded-lg border font-semibold border-black
+              hover:bg-black hover:text-white cursor-pointer
+              disabled:border-gray-300 disabled:text-gray-400
+              disabled:hover:border-gray-300 disabled:hover:text-gray-400
+            "
+            onClick={createMarketItem}
+            disabled={!valid}
+          >
+            Create
+          </button>
+        </div>
       </div>
     </div>
   );
