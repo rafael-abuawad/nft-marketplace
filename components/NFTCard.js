@@ -8,7 +8,7 @@ export default function NFTCard({ nft, showInfo, showBuyBtn, buyNft }) {
         <img
           className={`absolute w-full h-full rounded-xl shadow-lg ease-in-out duration-150 ${flatBottom}`}
           src={nft.image}
-          lazy
+          loading="lazy"
         />
       </div>
       {showInfo && (
@@ -18,7 +18,7 @@ export default function NFTCard({ nft, showInfo, showBuyBtn, buyNft }) {
         </div>
       )}
       <div className="flex justify-between p-3 rounded-b-xl items-center bg-black text-white">
-        <p className="font-semibold">{nft.price} ETH</p>
+        <p className="font-semibold">{nft.price} MATIC</p>
         {showBuyBtn && (
           <button
             className="px-4 rounded-lg border border-white hover:bg-white hover:text-black"

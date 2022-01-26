@@ -15,20 +15,29 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log({ nftAddress, marketplaceAddress });
     loadNfts();
   }, []);
 
   async function loadNfts() {
     setLoading(true);
-    const provider = new ethers.providers.JsonRpcProvider();
-    const nft = new ethers.Contract(nftAddress, NFT.abi, provider);
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const nft = new ethers.Contract(nftAddress, NFT.abi, signer);
     const marketplace = new ethers.Contract(
       marketplaceAddress,
       Marketplace.abi,
-      provider
+      signer
     );
 
-    let items = await marketplace.listAllItems();
+    let items = [];
+    try {
+      items = await marketplace.listAllItems();
+    } catch (err) {
+      console.log(err);
+    }
     items = await Promise.all(
       items.map(async (i) => {
         const tokenURI = await nft.tokenURI(i.tokenId);

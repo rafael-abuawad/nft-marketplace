@@ -133,7 +133,7 @@ export default function Create() {
           <input
             type="number"
             className="border border-gray-300 p-3 rounded-lg "
-            placeholder="Asset Price (ETH)"
+            placeholder="Asset Price (MATIC)"
             onChange={(e) => setForm({ ...form, price: e.target.value })}
             required
           />
