@@ -1,5 +1,7 @@
 # NFT Marketplace
 
+![alt text](https://github.com/rafael-abuawad/nft-marketplace/blob/main/public/screenshot.png "Screenshot of the home page")
+
 This project is a digital art (ERC-721) marketplace with Next.js, Tailwind, Solidity, Hardhat, Ethers.js, and IPFS. Although the project is just a demo, is fully functional with a clean and responsive UI, and all the basic stuff like buy, sell, and collect.
 
 ## Tech stack
@@ -17,9 +19,9 @@ This project is a digital art (ERC-721) marketplace with Next.js, Tailwind, Soli
 
 ## Installation
 
-1. [Install Brownie](https://eth-brownie.readthedocs.io/en/stable/install.html), if you haven't already. You must be using version `1.9.0` or newer.
+1. [Install Node](https://nodejs.org/en/), if you haven't already.
 
-2. Download the mix.
+2. Clone the repository.
 
     ```bash
     git clone https://github.com/rafael-abuawad/nft-marketplace.gitt
