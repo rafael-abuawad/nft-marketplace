@@ -24,7 +24,7 @@ This project is a digital art (ERC-721) marketplace with Next.js, Tailwind, Soli
 2. Clone the repository.
 
     ```bash
-    git clone https://github.com/rafael-abuawad/nft-marketplace.gitt
+    git clone https://github.com/rafael-abuawad/nft-marketplace.git
     ```
 
 3. Install the Next (React) client and Hardhat dependencies.
